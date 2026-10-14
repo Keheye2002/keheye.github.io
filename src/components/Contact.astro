@@ -1,0 +1,50 @@
+---
+import { pick, profile } from "../data/profile";
+import { t, type Lang } from "../i18n/ui";
+import Icon from "./Icon.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const others = profile.links.filter((link) => link.icon !== "email");
+const handles: Record<string, string> = {
+  scholar: "Kehe Ye",
+  github: "@keheye2002",
+  x: "@CheeseLongan",
+};
+---
+
+<section id="contact" class="section">
+  <div class="container contact-grid">
+    <div data-reveal>
+      <h2>{t(lang, "secContact")}</h2>
+      <p class="contact-lead">{t(lang, "contactLead")}</p>
+    </div>
+    <ul class="contact-cards" data-reveal>
+      <li class="contact-card contact-email">
+        <a href={`mailto:${profile.email}`}>
+          <Icon name="email" size={22} />
+          <span>
+            <small>{t(lang, "contactEmail")}</small>
+            <strong>{profile.email}</strong>
+          </span>
+        </a>
+      </li>
+      {
+        others.map((link) => (
+          <li class="contact-card">
+            <a href={link.href} target="_blank" rel="noreferrer">
+              <Icon name={link.icon} size={22} />
+              <span>
+                <small>{pick(lang, link.label)}</small>
+                <strong>{handles[link.icon]}</strong>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

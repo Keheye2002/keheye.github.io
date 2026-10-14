@@ -1,0 +1,81 @@
+---
+import "@fontsource-variable/outfit";
+import "../styles/global.css";
+import { getImage } from "astro:assets";
+import { getAbsoluteLocaleUrl } from "astro:i18n";
+import { profile } from "../data/profile";
+import { t, type Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const title = t(lang, "metaTitle");
+const description = t(lang, "metaDescription");
+const canonical = getAbsoluteLocaleUrl(lang);
+const enUrl = getAbsoluteLocaleUrl("en");
+const zhUrl = getAbsoluteLocaleUrl("zh");
+const ogImage = await getImage({ src: profile.portrait, width: 768, format: "jpg" });
+const favicon = await getImage({ src: profile.avatar, width: 64, height: 64, format: "png" });
+const touchIcon = await getImage({ src: profile.avatar, width: 180, height: 180, format: "png" });
+const image = new URL(ogImage.src, Astro.site).href;
+const jobTitle =
+  lang === "zh" ? "机器人系统基础设施工程师" : "Robotics System Infrastructure Engineer";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  alternateName: profile.nameZh,
+  jobTitle,
+  email: `mailto:${profile.email}`,
+  url: enUrl,
+  image,
+  homeLocation: {
+    "@type": "Place",
+    name: "Shenzhen",
+  },
+  worksFor: {
+    "@type": "Organization",
+    name: "Xspark AI",
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "Shenzhen University",
+  },
+  sameAs: profile.sameAs,
+};
+---
+
+<html lang={lang === "zh" ? "zh-Hans" : "en"}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="zh-Hans" href={zhUrl} />
+    <link rel="alternate" hreflang="x-default" href={enUrl} />
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content={title} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <meta property="og:locale" content={lang === "zh" ? "zh_CN" : "en_US"} />
+    <meta property="og:locale:alternate" content={lang === "zh" ? "en_US" : "zh_CN"} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    <link rel="icon" href={favicon.src} type="image/png" />
+    <link rel="apple-touch-icon" href={touchIcon.src} />
+    <meta name="theme-color" content="#ffffff" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replaceAll("<", "\\u003c")} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

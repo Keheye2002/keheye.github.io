@@ -1,0 +1,98 @@
+---
+import { Picture, getImage } from "astro:assets";
+import { pick, profile } from "../data/profile";
+import { t, type Lang } from "../i18n/ui";
+import PubCard from "./PubCard.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const posters = await Promise.all(
+  profile.featured.map((item) =>
+    item.media.kind === "video" ? getImage({ src: item.media.poster, width: 960, format: "webp" }) : null,
+  ),
+);
+---
+
+<div class="pub-summary" data-reveal>
+  {
+    profile.pubSummary.map((block) => (
+      <div class="summary-block">
+        <p class="summary-key">{pick(lang, block.key)}</p>
+        <div class="summary-rows">
+          {block.rows.map((row) => (
+            <p class="summary-row">
+              <span class="summary-label">{pick(lang, row.label)}</span>
+              <span>
+                {row.items.map((item, index) => (
+                  <>
+                    {index > 0 && ", "}
+                    <a href={item.href}>{item.text}</a>
+                    {"note" in item && item.note && <span class="summary-note"> {item.note}</span>}
+                  </>
+                ))}
+              </span>
+            </p>
+          ))}
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<div class="featured" data-reveal>
+  {
+    profile.featured.map((item, index) => (
+      <a class="featured-item" href={item.href}>
+        <div class:list={["featured-media", { "is-contain": "fit" in item && item.fit === "contain" }]}>
+          {item.media.kind === "video" ? (
+            <video
+              muted
+              loop
+              playsinline
+              preload="none"
+              poster={posters[index]?.src}
+              aria-label={pick(lang, item.media.alt)}
+              data-autoplay
+            >
+              <source src={item.media.src} type="video/mp4" />
+            </video>
+          ) : (
+            <Picture
+              src={item.media.src}
+              alt={pick(lang, item.media.alt)}
+              formats={["avif", "webp"]}
+              widths={[480, 720, 960]}
+              sizes="(min-width: 960px) 360px, 90vw"
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+        </div>
+        <span class="featured-caption">{pick(lang, item.caption)}</span>
+      </a>
+    ))
+  }
+</div>
+
+{
+  profile.pubGroups.map((group) => (
+    <div class="pub-group">
+      <h3 class="group-head" data-reveal>
+        <span>{pick(lang, group.key)}</span>
+        <span class="group-tag">{pick(lang, group.tag)}</span>
+      </h3>
+      {group.items.map((pub) => (
+        <PubCard lang={lang} pub={pub} />
+      ))}
+    </div>
+  ))
+}
+
+<p class="pub-legend">
+  <span>{t(lang, "pubLegend")}</span>
+  <a href="https://scholar.google.com/citations?user=xQWoHWwAAAAJ" target="_blank" rel="noreferrer">{t(lang, "scholarLink")} →</a>
+</p>

@@ -1,0 +1,64 @@
+---
+import { Picture } from "astro:assets";
+import { pick, type Publication } from "../data/profile";
+import { rich } from "../lib/rich";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+  pub: Publication;
+}
+
+const { lang, pub } = Astro.props;
+---
+
+<article id={pub.id} class:list={["pub", { "pub-highlight": pub.highlight }]} data-reveal>
+  <div class="pub-thumb">
+    <Picture
+      src={pub.thumb}
+      alt=""
+      formats={["avif", "webp"]}
+      widths={[240, 480]}
+      sizes="200px"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <div class="pub-body">
+    <h4 lang="en">{pub.title}</h4>
+    <p class="pub-authors" lang="en">
+      {
+        pub.authors.map((author, index) => (
+          <>
+            {index > 0 && ", "}
+            {"gap" in author ? (
+              "…"
+            ) : (
+              <span class:list={{ me: author.me }}>
+                {author.name}
+                {author.mark}
+              </span>
+            )}
+          </>
+        ))
+      }
+    </p>
+    <p class="pub-venue">
+      <span class="venue">{pick(lang, pub.venue)}</span>
+      {pub.venueNote && <span class="venue-note">{pick(lang, pub.venueNote)}</span>}
+    </p>
+    {pub.award && <p class="pub-award" set:html={rich(pick(lang, pub.award))} />}
+    {pub.credit && <p class="pub-credit" set:html={rich(pick(lang, pub.credit))} />}
+    <ul class="pub-links">
+      {
+        pub.links.map((link) => (
+          <li>
+            <a href={link.href} target="_blank" rel="noreferrer">
+              {pick(lang, link.label)}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</article>

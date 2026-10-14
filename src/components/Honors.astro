@@ -1,0 +1,38 @@
+---
+import { Picture } from "astro:assets";
+import { pick, profile } from "../data/profile";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<div class="honors" data-reveal>
+  <ul class="honor-list">
+    {
+      profile.honors.map((honor) => (
+        <li class:list={["honor", { "honor-highlight": honor.highlight }]}>
+          <div>
+            <h3>{pick(lang, honor.title)}</h3>
+            <p>{pick(lang, honor.issuer)}</p>
+          </div>
+          <time>{honor.year}</time>
+        </li>
+      ))
+    }
+  </ul>
+  <figure class="certificate">
+    <Picture
+      src={profile.certificate.src}
+      alt={pick(lang, profile.certificate.alt)}
+      formats={["avif", "webp"]}
+      widths={[480, 768, 1024]}
+      sizes="(min-width: 960px) 400px, 90vw"
+      loading="lazy"
+      decoding="async"
+    />
+  </figure>
+</div>

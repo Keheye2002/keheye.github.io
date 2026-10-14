@@ -1,0 +1,47 @@
+---
+import { pick, profile } from "../data/profile";
+import type { Lang } from "../i18n/ui";
+import Icon from "./Icon.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<ul class="cards cards-2" data-reveal>
+  {
+    profile.projects.map((project) => {
+      const repoUrl = "repo" in project ? `https://github.com/${project.repo}` : undefined;
+      return (
+        <li class:list={["card project", { "project-featured": "featured" in project && project.featured }]}>
+          <div class="project-head">
+            <p class="project-when">{pick(lang, project.when)}</p>
+            {repoUrl && (
+              <a class="project-repo" href={repoUrl} target="_blank" rel="noreferrer">
+                <Icon name="github" size={15} />
+                <span>{project.repo}</span>
+              </a>
+            )}
+          </div>
+          <h3>
+            {repoUrl ? (
+              <a href={repoUrl} target="_blank" rel="noreferrer">
+                {project.title}
+              </a>
+            ) : (
+              project.title
+            )}
+          </h3>
+          <p class="project-body">{pick(lang, project.body)}</p>
+          <ul class="tags">
+            {project.tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
+        </li>
+      );
+    })
+  }
+</ul>

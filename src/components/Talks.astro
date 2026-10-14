@@ -1,0 +1,53 @@
+---
+import { Picture } from "astro:assets";
+import { pick, profile } from "../data/profile";
+import { rich } from "../lib/rich";
+import { t, type Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<div class="talks">
+  {
+    profile.talks.map((talk) => (
+      <article id={talk.id} class="pub talk" data-reveal>
+        <a class="pub-thumb talk-thumb" href={talk.video} target="_blank" rel="noreferrer" aria-label={t(lang, "talkPlay")}>
+          <Picture
+            src={talk.poster}
+            alt={pick(lang, talk.posterAlt)}
+            formats={["avif", "webp"]}
+            widths={[240, 480]}
+            sizes="200px"
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="talk-play" aria-hidden="true" />
+        </a>
+        <div class="pub-body">
+          <h4>{pick(lang, talk.title)}</h4>
+          <p class="pub-authors" set:html={rich(pick(lang, talk.context))} />
+          <p class="pub-venue">
+            <span class="venue">{pick(lang, talk.venue)}</span>
+            <span class="venue-note">{pick(lang, talk.venueNote)}</span>
+          </p>
+          <ul class="pub-links">
+            {talk.links.map((link) => {
+              const external = link.href.startsWith("http");
+              return (
+                <li>
+                  <a href={link.href} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined}>
+                    {pick(lang, link.label)}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </article>
+    ))
+  }
+</div>

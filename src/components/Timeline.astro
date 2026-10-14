@@ -1,0 +1,33 @@
+---
+import { Image } from "astro:assets";
+import { pick, type Entry } from "../data/profile";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+  items: Entry[];
+}
+
+const { lang, items } = Astro.props;
+---
+
+<ol class="timeline">
+  {
+    items.map((item) => (
+      <li class="tl-row" data-reveal>
+        <div class="tl-logo">
+          <Image src={item.logo} alt={item.logoAlt} height={96} densities={[1, 2]} loading="lazy" />
+        </div>
+        <div class="tl-body">
+          <h3>{pick(lang, item.org)}</h3>
+          <p class="tl-role">
+            {pick(lang, item.role)} · {pick(lang, item.place)}
+          </p>
+          <p class="tl-detail">{pick(lang, item.detail)}</p>
+          {item.outcome && <p class="tl-outcome">→ {pick(lang, item.outcome)}</p>}
+        </div>
+        <p class="tl-when">{pick(lang, item.when)}</p>
+      </li>
+    ))
+  }
+</ol>

@@ -1,0 +1,74 @@
+---
+import { Picture } from "astro:assets";
+import { pick, profile } from "../data/profile";
+import { rich } from "../lib/rich";
+import { t, type Lang } from "../i18n/ui";
+import Icon from "./Icon.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<section class="hero" id="top">
+  <div class="hero-backdrop" aria-hidden="true">
+    <Picture src={profile.heroBackdrop} alt="" formats={["avif", "webp"]} widths={[960, 1600]} sizes="70vw" loading="eager" />
+  </div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <h1 class="hero-name">
+        {
+          lang === "zh" ? (
+            <>
+              叶可禾<span class="hero-alt" lang="en">（Kehe Ye）</span>
+            </>
+          ) : (
+            <>
+              Kehe Ye<span class="hero-alt" lang="zh-Hans">（叶可禾）</span>
+            </>
+          )
+        }
+      </h1>
+      <dl class="roles">
+        {
+          profile.roles.map((role) => (
+            <div>
+              <dt>{pick(lang, role.label)}</dt>
+              <dd>{pick(lang, role.value)}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="tagline" set:html={rich(pick(lang, profile.tagline))} />
+      <p class="bio" set:html={rich(pick(lang, profile.bio))} />
+      <ul class="social">
+        {
+          profile.links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                {...(link.href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
+              >
+                <Icon name={link.icon} />
+                <span>{pick(lang, link.label)}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <figure class="hero-portrait">
+      <Picture
+        src={profile.portrait}
+        alt={t(lang, "portraitAlt")}
+        formats={["avif", "webp"]}
+        widths={[480, 872]}
+        sizes="(min-width: 960px) 400px, 80vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </figure>
+  </div>
+</section>

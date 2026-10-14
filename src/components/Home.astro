@@ -1,0 +1,60 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "./Nav.astro";
+import Hero from "./Hero.astro";
+import Section from "./Section.astro";
+import News from "./News.astro";
+import Publications from "./Publications.astro";
+import Talks from "./Talks.astro";
+import Timeline from "./Timeline.astro";
+import Honors from "./Honors.astro";
+import Competitions from "./Competitions.astro";
+import Projects from "./Projects.astro";
+import Contact from "./Contact.astro";
+import Footer from "./Footer.astro";
+import { profile } from "../data/profile";
+import { t, type Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<Base lang={lang}>
+  <Nav lang={lang} />
+  <main>
+    <Hero lang={lang} />
+    <Section id="news" title={t(lang, "secNews")} tone="soft">
+      <News lang={lang} />
+    </Section>
+    <Section id="publications" title={t(lang, "secPubs")}>
+      <a slot="aside" class="aside-link" href="https://scholar.google.com/citations?user=xQWoHWwAAAAJ" target="_blank" rel="noreferrer">
+        {t(lang, "scholarLink")} →
+      </a>
+      <Publications lang={lang} />
+      <h2 class="subsection" id="talks" data-reveal>{t(lang, "secTalks")}</h2>
+      <Talks lang={lang} />
+    </Section>
+    <Section id="experience" title={t(lang, "secExperience")} tone="soft">
+      <Timeline lang={lang} items={profile.experience} />
+      <h2 class="subsection" id="education" data-reveal>{t(lang, "secEducation")}</h2>
+      <Timeline lang={lang} items={profile.education} />
+    </Section>
+    <Section id="honors" title={t(lang, "secHonors")}>
+      <Honors lang={lang} />
+      <h2 class="subsection" id="competitions" data-reveal>{t(lang, "secCompetitions")}</h2>
+      <Competitions lang={lang} />
+    </Section>
+    <Section id="projects" title={t(lang, "secProjects")} tone="soft">
+      <Projects lang={lang} />
+    </Section>
+    <Contact lang={lang} />
+  </main>
+  <Footer lang={lang} />
+  <script>
+    import { mountSite } from "../scripts/site";
+    mountSite();
+  </script>
+</Base>

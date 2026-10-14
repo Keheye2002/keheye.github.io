@@ -1,0 +1,25 @@
+---
+import { pick, profile } from "../data/profile";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<ul class="cards cards-3" data-reveal>
+  {
+    profile.competitions.map((item) => (
+      <li class="card comp">
+        <h3>{pick(lang, item.event)}</h3>
+        <p class="comp-detail">{pick(lang, item.detail)}</p>
+        <p class="comp-result">
+          <span>{item.year}</span>
+          <span class={`medal medal-${item.tone}`}>{pick(lang, item.result)}</span>
+        </p>
+      </li>
+    ))
+  }
+</ul>

@@ -1,0 +1,30 @@
+---
+import { siGithub, siGooglescholar, siX } from "simple-icons";
+import type { IconKey } from "../data/profile";
+
+interface Props {
+  name: IconKey;
+  size?: number;
+}
+
+const { name, size = 18 } = Astro.props;
+
+const brand = {
+  github: { path: siGithub.path, color: `#${siGithub.hex}` },
+  scholar: { path: siGooglescholar.path, color: `#${siGooglescholar.hex}` },
+  x: { path: siX.path, color: `#${siX.hex}` },
+} as const;
+---
+
+{
+  name === "email" ? (
+    <svg class="icon" width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="1.5" y="3.5" width="21" height="17" rx="4" fill="#1a73e8" />
+      <path d="M5.5 8.2 12 12.6l6.5-4.4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  ) : (
+    <svg class="icon" width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+      <path d={brand[name].path} fill={brand[name].color} />
+    </svg>
+  )
+}

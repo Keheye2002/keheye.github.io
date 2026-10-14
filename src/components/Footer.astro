@@ -1,0 +1,29 @@
+---
+import { t, type Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const items = [
+  { id: "news", label: t(lang, "navNews") },
+  { id: "publications", label: t(lang, "navPubs") },
+  { id: "experience", label: t(lang, "navExperience") },
+  { id: "honors", label: t(lang, "navHonors") },
+  { id: "contact", label: t(lang, "navContact") },
+];
+---
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>
+      © {new Date().getFullYear()} {lang === "zh" ? "叶可禾（Kehe Ye）" : "Kehe Ye（叶可禾）"} · {t(lang, "footerPlace")} ·{" "}
+      <span class="nowrap">{t(lang, "footerUpdated")}</span>
+    </p>
+    <nav aria-label="Footer">
+      {items.map((item) => <a href={`#${item.id}`}>{item.label}</a>)}
+      <a href="#top">{t(lang, "footerTop")}</a>
+    </nav>
+  </div>
+</footer>

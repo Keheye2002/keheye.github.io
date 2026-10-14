@@ -1,0 +1,57 @@
+---
+import { Picture } from "astro:assets";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { profile } from "../data/profile";
+import { t, type Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const home = getRelativeLocaleUrl(lang);
+const enHref = getRelativeLocaleUrl("en");
+const zhHref = getRelativeLocaleUrl("zh");
+const items = [
+  { id: "news", label: t(lang, "navNews") },
+  { id: "publications", label: t(lang, "navPubs") },
+  { id: "experience", label: t(lang, "navExperience") },
+  { id: "honors", label: t(lang, "navHonors") },
+  { id: "contact", label: t(lang, "navContact") },
+];
+---
+
+<header class="nav" data-nav>
+  <div class="container nav-inner">
+    <a class="nav-brand" href={`${home}#top`}>
+      <span class="nav-avatar">
+        <Picture
+          src={profile.avatar}
+          alt=""
+          formats={["avif", "webp"]}
+          widths={[64, 128]}
+          sizes="32px"
+          loading="eager"
+        />
+      </span>
+      {
+        lang === "zh" ? (
+          <span>
+            叶可禾<span class="nav-alt" lang="en">（Kehe Ye）</span>
+          </span>
+        ) : (
+          <span>
+            Kehe Ye<span class="nav-alt" lang="zh-Hans">（叶可禾）</span>
+          </span>
+        )
+      }
+    </a>
+    <nav class="nav-links" aria-label={t(lang, "navLabel")}>
+      {items.map((item) => <a href={`#${item.id}`} data-nav-link={item.id}>{item.label}</a>)}
+    </nav>
+    <nav class="lang" aria-label={t(lang, "langLabel")}>
+      <a href={enHref} hreflang="en" lang="en" data-lang-link aria-current={lang === "en" ? "page" : undefined}>EN</a>
+      <a href={zhHref} hreflang="zh-Hans" lang="zh-Hans" data-lang-link aria-current={lang === "zh" ? "page" : undefined}>中</a>
+    </nav>
+  </div>
+</header>

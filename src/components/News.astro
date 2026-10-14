@@ -1,0 +1,35 @@
+---
+import { pick, profile } from "../data/profile";
+import { rich } from "../lib/rich";
+import { t, type Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const visible = 5;
+---
+
+<div class="news" data-news data-reveal>
+  <ol class="news-list">
+    {
+      profile.news.map((item, index) => (
+        <li class:list={["news-row", { "news-extra": index >= visible }]}>
+          <time>{item.date}</time>
+          <p set:html={rich(pick(lang, item.text))} />
+        </li>
+      ))
+    }
+  </ol>
+  {
+    profile.news.length > visible && (
+      <button class="pill" type="button" data-news-toggle data-more={t(lang, "newsMore")} data-less={t(lang, "newsLess")}>
+        <span>{t(lang, "newsMore")}</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+          <path d="M6 2v8M2.5 6.5 6 10l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    )
+  }
+</div>
