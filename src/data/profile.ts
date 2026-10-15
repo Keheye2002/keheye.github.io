@@ -9,6 +9,7 @@ import xpolicylabMethod from "../assets/pubs/xpolicylab-method.png";
 import xpolicylabTeaser from "../assets/pubs/xpolicylab-teaser.png";
 import robodojoTeaser from "../assets/pubs/robodojo-teaser.png";
 import robodojoPoster from "../assets/pubs/robodojo-realeval-poster.jpg";
+import spark0Cover from "../assets/pubs/spark0-cover.jpg";
 import luminaTalk18 from "../assets/talks/lumina-talk-18.webp";
 import iros2026Certificate from "../assets/honors/iros-2026-best-tool.jpg";
 import xsparkLogo from "../assets/logos/xspark.png";
@@ -87,8 +88,8 @@ export const profile = {
     zh: "为**会学习的机器人**做基础设施",
   } satisfies Copy,
   bio: {
-    en: "Robotics system infrastructure engineer at **Xspark AI**, building the data and evaluation layer for embodied AI. Co-first author of **FieldGen**, and a contributor to **XPolicyLab** (**Best Tool Paper**, IROS 2026 ScaleInfra Workshop), the **RoboDojo** real-robot evaluation infrastructure, and **HumanTouch**. Previously at **AgiBot** and **Tencent**, and a two-time **ICPC Asia Regional** silver medalist.",
-    zh: "**Xspark AI** 机器人系统基础设施工程师，做具身智能的数据与评测基础设施。**FieldGen** 共同第一作者，参与 **XPolicyLab**（IROS 2026 ScaleInfra Workshop **最佳工具论文奖**）、**RoboDojo** 真机评测基础设施与 **HumanTouch**。曾在**智元 AgiBot** 与**腾讯**工作，两次获得 **ICPC 亚洲区域赛**银牌。",
+    en: "Robotics system infrastructure engineer at **Xspark AI**, building the data and evaluation layer for embodied AI. Co-first author of **FieldGen** and an author of **Spark-0**. Contributor to **XPolicyLab** (**Best Tool Paper**, IROS 2026 ScaleInfra Workshop), the **RoboDojo** real-robot evaluation infrastructure, and **HumanTouch**. Previously at **AgiBot** and **Tencent**, and a two-time **ICPC Asia Regional** silver medalist.",
+    zh: "**Xspark AI** 机器人系统基础设施工程师，做具身智能的数据与评测基础设施。**FieldGen** 共同第一作者，**Spark-0** 作者，参与 **XPolicyLab**（IROS 2026 ScaleInfra Workshop **最佳工具论文奖**）、**RoboDojo** 真机评测基础设施与 **HumanTouch**。曾在**智元 AgiBot** 与**腾讯**工作，两次获得 **ICPC 亚洲区域赛**银牌。",
   } satisfies Copy,
   links: [
     { icon: "email", href: "mailto:keheye2002@gmail.com", label: { en: "Email", zh: "邮箱" } },
@@ -101,6 +102,13 @@ export const profile = {
     { icon: "x", href: "https://x.com/CheeseLongan", label: same("X") },
   ] satisfies { icon: IconKey; href: string; label: Copy }[],
   news: [
+    {
+      date: "10/2026",
+      text: {
+        en: "Released [Spark-0](https://xsparkai.com/Spark-0/), a spatially aligned vision-tactile-language-action model pretrained on **1,000 hours** of HumanTouch.",
+        zh: "发布 [Spark-0](https://xsparkai.com/Spark-0/)，基于 **1000 小时** HumanTouch 预训练的空间对齐视觉-触觉-语言-动作模型。",
+      },
+    },
     {
       date: "10/2026",
       text: {
@@ -181,8 +189,9 @@ export const profile = {
           items: [{ text: "FieldGen", href: "#pub-fieldgen" }],
         },
         {
-          label: { en: "Contributor × 2", zh: "参与者 × 2" },
+          label: { en: "Author × 3", zh: "作者 × 3" },
           items: [
+            { text: "Spark-0", href: "#pub-spark0" },
             { text: "XPolicyLab", href: "#pub-xpolicylab" },
             { text: "HumanTouch", href: "#pub-humantouch" },
           ],
@@ -204,6 +213,19 @@ export const profile = {
     },
   ],
   featured: [
+    {
+      media: {
+        kind: "video",
+        src: media("spark0-cover.mp4"),
+        poster: spark0Cover,
+        alt: {
+          en: "Xspark AI humanoid with tactile gloves at a table of dexterous manipulation objects.",
+          zh: "Xspark AI 人形机器人戴着触觉手套，站在灵巧操作实验台前。",
+        },
+      },
+      caption: { en: "Spark-0 (Preprint)", zh: "Spark-0（预印本）" },
+      href: "#pub-spark0",
+    },
     {
       media: {
         kind: "image",
@@ -248,12 +270,43 @@ export const profile = {
         src: xpolicylabTeaser,
         alt: { en: "XPolicyLab wordmark over integrated policy names.", zh: "XPolicyLab 标识与已接入的策略名称。" },
       },
-      caption: { en: "XPolicyLab (IROS 2026 Workshop)", zh: "XPolicyLab（IROS 2026 研讨会）" },
+      caption: { en: "XPolicyLab (IROS 2026)", zh: "XPolicyLab（IROS 2026）" },
       href: "#pub-xpolicylab",
       fit: "contain",
     },
   ] satisfies { media: Media; caption: Copy; href: string; fit?: "contain" }[],
   pubGroups: [
+    {
+      key: { en: "Models", zh: "模型" },
+      tag: { en: "Pretrain · Manipulate", zh: "预训练 · 操作" },
+      items: [
+        {
+          id: "pub-spark0",
+          title: "Spark-0: Scaling Spatially Aligned Tactile Pretraining for Robot Dexterous Manipulation",
+          thumb: spark0Cover,
+          authors: [
+            { name: "Tianxing Chen", mark: "*§" },
+            { name: "Wenwei Lin", mark: "*" },
+            { name: "Chuqiao Lyu", mark: "*§" },
+            { gap: true },
+            { name: "Kehe Ye", me: true },
+            { gap: true },
+            { name: "Ping Luo", mark: "†" },
+            { name: "Wenbo Ding", mark: "†" },
+          ],
+          venue: { en: "Preprint 2026", zh: "预印本 2026" },
+          venueNote: {
+            en: "Xspark AI · 1,000-hour tactile pretraining",
+            zh: "Xspark AI · 1000 小时触觉预训练",
+          },
+          highlight: true,
+          links: [
+            { href: "https://xsparkai.com/Spark-0/", label: { en: "Project Page", zh: "项目主页" } },
+            { href: "https://xsparkai.com/Spark-0/paper.pdf", label: { en: "Paper", zh: "论文" } },
+          ],
+        },
+      ],
+    },
     {
       key: { en: "Data", zh: "数据" },
       tag: { en: "Collect · Generate", zh: "采集 · 生成" },
@@ -424,7 +477,7 @@ export const profile = {
         en: "Data infrastructure for embodied models, and evaluation infrastructure that runs one policy adapter in simulation and on real robots.",
         zh: "具身模型的数据基础设施，以及让同一个策略适配器在仿真和真机上评测的基础设施。",
       },
-      outcome: same("XPolicyLab · RoboDojo-RealEval · HumanTouch"),
+      outcome: same("Spark-0 · XPolicyLab · RoboDojo-RealEval · HumanTouch"),
     },
     {
       logo: agibotLogo,
@@ -588,5 +641,6 @@ export const profile = {
     "https://fieldgen.github.io/",
     "https://xpolicylab.github.io/",
     "https://robodojo-benchmark.com/",
+    "https://xsparkai.com/Spark-0/",
   ],
 };
