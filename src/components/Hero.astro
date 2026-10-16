@@ -16,59 +16,61 @@ const { lang } = Astro.props;
   <div class="hero-backdrop" aria-hidden="true">
     <Picture src={profile.heroBackdrop} alt="" formats={["avif", "webp"]} widths={[960, 1600]} sizes="70vw" loading="eager" />
   </div>
-  <div class="container hero-grid">
-    <div class="hero-copy">
-      <h1 class="hero-name">
-        {
-          lang === "zh" ? (
-            <>
-              叶可禾<span class="hero-alt" lang="en">（Kehe Ye）</span>
-            </>
-          ) : (
-            <>
-              Kehe Ye<span class="hero-alt" lang="zh-Hans">（叶可禾）</span>
-            </>
-          )
-        }
-      </h1>
-      <dl class="roles">
-        {
-          profile.roles.map((role) => (
-            <div>
-              <dt>{pick(lang, role.label)}</dt>
-              <dd>{pick(lang, role.value)}</dd>
-            </div>
-          ))
-        }
-      </dl>
-      <p class="tagline" set:html={rich(pick(lang, profile.tagline))} />
-      <p class="bio" set:html={rich(pick(lang, profile.bio))} />
-      <ul class="social">
-        {
-          profile.links.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                {...(link.href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
-              >
-                <Icon name={link.icon} />
-                <span>{pick(lang, link.label)}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+  <div class="container hero-inner">
+    <div class="hero-top">
+      <figure class="hero-portrait">
+        <Picture
+          src={profile.portrait}
+          alt={t(lang, "portraitAlt")}
+          formats={["avif", "webp"]}
+          widths={[240, 480]}
+          sizes="(min-width: 900px) 120px, 96px"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </figure>
+      <div class="hero-lead">
+        <h1 class="hero-name">
+          {
+            lang === "zh" ? (
+              <>
+                叶可禾<span class="hero-alt" lang="en">（Kehe Ye）</span>
+              </>
+            ) : (
+              <>
+                Kehe Ye<span class="hero-alt" lang="zh-Hans">（叶可禾）</span>
+              </>
+            )
+          }
+        </h1>
+        <dl class="roles">
+          {
+            profile.roles.map((role) => (
+              <div>
+                <dt>{pick(lang, role.label)}</dt>
+                <dd>{pick(lang, role.value)}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
     </div>
-    <figure class="hero-portrait">
-      <Picture
-        src={profile.portrait}
-        alt={t(lang, "portraitAlt")}
-        formats={["avif", "webp"]}
-        widths={[480, 872]}
-        sizes="(min-width: 960px) 400px, 80vw"
-        loading="eager"
-        fetchpriority="high"
-      />
-    </figure>
+    <p class="tagline" set:html={rich(pick(lang, profile.tagline))} />
+    <p class="bio" set:html={rich(pick(lang, profile.bio))} />
+    <ul class="social">
+      {
+        profile.links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              {...(link.href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
+            >
+              <Icon name={link.icon} />
+              <span>{pick(lang, link.label)}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>

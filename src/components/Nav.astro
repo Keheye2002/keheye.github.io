@@ -1,7 +1,5 @@
 ---
-import { Picture } from "astro:assets";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { profile } from "../data/profile";
 import { t, type Lang } from "../i18n/ui";
 
 interface Props {
@@ -24,16 +22,6 @@ const items = [
 <header class="nav" data-nav>
   <div class="container nav-inner">
     <a class="nav-brand" href={`${home}#top`}>
-      <span class="nav-avatar">
-        <Picture
-          src={profile.avatar}
-          alt=""
-          formats={["avif", "webp"]}
-          widths={[64, 128]}
-          sizes="32px"
-          loading="eager"
-        />
-      </span>
       {
         lang === "zh" ? (
           <span>

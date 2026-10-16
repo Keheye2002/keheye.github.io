@@ -75,10 +75,6 @@ export const profile = {
       value: same("Xspark AI"),
     },
     {
-      label: { en: "Previously", zh: "曾就职" },
-      value: { en: "AgiBot · Tencent", zh: "智元 · 腾讯" },
-    },
-    {
       label: { en: "B.Eng.", zh: "工学学士" },
       value: { en: "Shenzhen University", zh: "深圳大学" },
     },
